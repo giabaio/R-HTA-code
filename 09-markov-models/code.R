@@ -21,11 +21,6 @@ state_names <- c(
 ) 
 
 
-## ----fig-colon_Markov, echo = FALSE, warning = FALSE, message = FALSE---------------------------------------------------------------------
-#| fig.cap: Colon cancer cohort Markov model
-knitr::include_graphics("figs/colon Markov diagram.png")
-
-
 ## ----message = FALSE----------------------------------------------------------------------------------------------------------------------
 health_states_diagram <-
   define_transition(

@@ -1,0 +1,25 @@
+study,covariate,mean,sd
+PsoBest,age,47.4,14.1
+PsoBest,bsa,24,20.5
+PsoBest,durnpso,18.2,14.1
+PsoBest,pasi_w0,14.7,9.7
+PsoBest,prevsys,0.54,
+PsoBest,psa,0.207,
+PsoBest,male,0.601,
+PsoBest,weight,85,19.1
+PROSPECT,age,48.1,13.7
+PROSPECT,bsa,18.7,18.4
+PROSPECT,durnpso,19.6,13.5
+PROSPECT,pasi_w0,17.7,12.5
+PROSPECT,prevsys,0.9095,
+PROSPECT,psa,0.202,
+PROSPECT,male,0.624,
+PROSPECT,weight,87.5,20.3
+Chiricozzi 2019,age,51.94,14.64
+Chiricozzi 2019,bsa,23,16.79
+Chiricozzi 2019,durnpso,16.93,10.82
+Chiricozzi 2019,pasi_w0,16.65,8.25
+Chiricozzi 2019,prevsys,0.9061,
+Chiricozzi 2019,psa,0.2152,
+Chiricozzi 2019,male,0.6818,
+Chiricozzi 2019,weight,78.3,15.87

@@ -1,8 +1,3 @@
-## ----fig-colon_msm, echo = FALSE, warning = FALSE, message = FALSE------------------------------------------------------------------------
-#| fig.cap: Colon cancer multistate model 
-knitr::include_graphics("figs/Colon multistate diagram.png")
-
-
 ## -----------------------------------------------------------------------------------------------------------------------------------------
 load(file = "data/msm_colon.rda")
 dim(msm_colon)

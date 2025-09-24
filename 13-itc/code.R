@@ -162,8 +162,7 @@ tab=bind_rows(
       get_ag_prop(., "psa")
     )}),
   # Registry target population
-  read.csv(here::here("chapters/13.Indirect_treatment_comparisons/registry_summaries.csv")) %>%
-  # read.csv("./R-HTA-book-pop-adjust/registry_summaries.csv") %>%
+  read.csv(here::here("data/registry_summaries.csv")) %>%
     dplyr::filter(study == "PROSPECT") %>%
     rowwise() %>% 
     transmute(studyc = study, vars = covariate, 

@@ -1,0 +1,111 @@
+	model {     
+	                          		
+ 	
+    #Likelihood for arm level data
+    for(i in 1:N1){ 	
+        y[i,1:2] ~ dmnorm(mean.y[study[i],arm[i],1:2],omega[i,,])         # multivariate likelihood
+        omega[i,1:2,1:2] <- inverse(cov.mat[i,,])                         # within-study precision matrix
+      
+        #define elements of within-study covariance matrix
+        cov.mat[i,1,1] <-  cov11[i]
+        cov.mat[i,2,2] <-  cov22[i]
+        cov.mat[i,1,2] <-  cov12[i]
+        cov.mat[i,2,1] <-  cov.mat[i,1,2] 
+ 
+  }
+
+    for(j in 1:ns){ 
+        for(k in 1:nastudy[j]) {	
+            for(m in 1:no){
+                 mean.y[j,k,m] <- mu[j,m] + delta[j,k,m]                          # define study-specific treatment effects
+            }
+      }
+   }
+
+  #Random effects between-study model 
+  for(j in 1:ns) {  
+       for(m in 1:no) {
+          delta[j,1,m] <-0               # delta in control arm to zero for all outcomes
+          w[j,1,m]    <-0                 # multi-arm adjustment in control group set to zero
+	  sw[j,1,m]<-0
+	  md[j,1,m]<-0
+
+       }
+		
+  for(k in 2:nastudy[j]){			
+     delta[j,k,1:no] ~ dmnorm(md[j,k,1:no],precBK[j,k,1:no,1:no])         #random effects model	
+        
+        for(m in 1:no){
+           for(mm in 1:no) { 
+            	 precBK[j,k,m,mm] <- prec[m,mm]*2*(k-1)/k                  # between-study precision matrix
+             } 
+         } 
+     }
+  }
+		
+  #Consistency relations between basic parameters
+  for(i in 1:N2) {
+      # tmp2[i] <- studyid1[i]                               # temp variable to identify study id, not used
+      for(k in 2:na[i]) {
+            md[s[i],k,out[i]] <-  (d[out[i],t[i,k]] - d[out[i],t[i,1]])*equals(o[i],out[i])  + sw[s[i],k,out[i]] 
+            w[s[i],k,out[i]] <- (delta[s[i],k,out[i]] - (d[out[i],t[i,k]] - d[out[i],t[i,1]]))*equals(o[i],out[i])
+            cut[i,k] <-k-1
+            sw[s[i],k,out[i]] <- sum(w[s[i],(1:cut[i,k]),out[i]])/(cut[i,k])
+       }
+  }
+
+  #Constraints 
+  d[1,1] <- 0 
+  d[2,1] <- 0
+  
+  #Prior distributions and parameter to estimate
+  prec[1:no,1:no] <- inverse(sigma[,])         
+  sd.se~ dunif(0, 2)	
+
+   for(m in 1:no) { 
+      prec.se[m] <- pow(sd.se,-2) 
+      sigma[m,m] <- pow(sd[m],2)              
+      sd[m] ~ dunif(0, 2)                     
+  				
+      for(j in 1:ns){ 
+         mu[j, m] ~ dnorm(0,0.001) 
+      }
+ 
+      for(k in 2: nt.total[m]){  
+         or[m,k] <- exp(d[m,k])  
+            d[m,k]  ~ dnorm(0,0.001)
+        }
+  } 		   
+ 
+  #spherical parameterization (Wei and Higgins 2013)
+  pi <- 3.1415 
+  for(i in 1:2) {
+       for(j in (i+1):no) {
+       	    sigma[i,j] <- rho[i,j]*sd[i]*sd[j]
+            sigma[j,i] <- sigma[i,j]
+        g[j,i] <- 0
+	    a[i,j] ~ dunif(0, pi)
+	    rho[i,j] <- inprod(g[,i], g[,j])
+      }
+  } 
+  
+  g[1,1] <- 1
+  g[1,2] <- cos(a[1,2])
+  g[2,2] <- sin(a[1,2])
+
+  
+for (i in 1: ns){
+mu1[i,1] <- mean.y[i,1,1]
+mu1[i,2] <- mean.y[i,1,2]
+}
+mu_mean[1]<- sum(mu1[,1])/ns
+mu_mean[2]<- sum(mu1[,2])/ns
+
+
+for (i in 1: nt.total[1]){
+  alpha[1,i] <- mu_mean[1]+d[1,i]
+}
+for (i in 1: nt.total[2]){
+  alpha[2,i] <- mu_mean[2]+d[2,i]
+}
+}          

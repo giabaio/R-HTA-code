@@ -15,9 +15,6 @@ y=seq(-4,4,.01)
 f=p1*(p2/sqrt(p3))*exp((y-p2)^2/log(p3))
 tibble(y,f) %>% ggplot(aes(y,f)) + geom_line() + xlab("$y$") + ylab("Probability distribution") +
   theme_bw()
-#plot(y,f,t="l",ylab="Probability distribution",xlab="",axes=F)#,cex.lab=1.8
-#axis(1); axis(2)
-#mtext(side=1,line=2.5,"$y$",cex=1.3)
 
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------
@@ -373,10 +370,6 @@ tibble(
   geom_line(aes(x=theta,y=l2/max(l2),color="$r=4,n=13$")) + 
   geom_line(aes(x=theta,y=l3/max(l3),color="$r=9,n=13$")) + 
   theme_bw() + xlab("$\\theta$") + ylab("Rescaled likelihood function") +
-  # scale_colour_manual(
-  #   "",breaks=c("$r=2,n=13$","$r=4,n=13$","$r=9,n=13$"),
-  #   values = c("$r=2,n=13$"="black", "$r=4,n=13$"="red", "$r=9,n=13$"="blue")
-  # ) + 
   theme(legend.position=c(.9,.85),legend.background=element_rect(fill='transparent')) +
   ### Should the colouring here change???
   geom_segment(aes(x=2/n,y=0,xend=2/n,yend=1),color="black",linetype=2) +
@@ -505,23 +498,6 @@ tab=data.frame(col1,tab)
 colnames(tab)=c("","Mean","SD","2.5\\%","Median","97.5\\%")
 tinytable::tt(tab,digits=4)
 
-# if(knitr::is_latex_output()==TRUE) {
-#   kableExtra::kable_styling(
-#   knitr::kable(
-#     tab,
-#     booktabs=TRUE,
-#     digits=digits, escape=F, format="pipe",
-#     col.names=c("Mean","SD","2.5\\%","Median","97.5\\%")
-#   )
-#   ,latex_options=c("HOLD_position"))
-# } else {
-#   knitr::kable(
-#     tab,
-#     booktabs=TRUE,
-#     digits=digits
-#   )
-# }
-
 
 ## ----betaprobs----------------------------------------------------------------------------------------------------------------------------
 #| echo: true
@@ -601,23 +577,10 @@ p = p + geom_segment(aes(y=low[20],x=20,yend=upp[20],xend=20),lwd=.55,col="blue"
 p
 
 
-## ----condtext,echo=FALSE,results="asis"---------------------------------------------------------------------------------------------------
-howmanywrong=sum(check==1)
-if(howmanywrong==1){
-  cat(paste0("However, there is one potential replicate (experiment number ",which(check==1),') in which the procedure fails to cover the true value of the parameter. This is not entirely surprising: the procedure for the confidence interval "gets it right" 19/20 or 95% of the times.'))
-}   
-if(howmanywrong==0) {
-    
-}
-if(howmanywrong>1) {
-  cat(paste0("However, there are ",howmanywrong," potential replicates (experiments number ",paste(which(check==1),collapse=","),') in which the procedure fails to cover the true value of the parameter. In this case, the procedure "gets it right" ',howmanytimes,"/20 or ",format(100*howmanytimes/20,digits=3),'% of the times. But if we look at the "long-run" property (i.e. out of 1000s of simulations for the replicated experiments), we actually see that this proportion quickly goes to 95%.'))
-}
-
-
 ## -----------------------------------------------------------------------------------------------------------------------------------------
 #| label: galtondata
 #| echo: false
-galton=read.table("Galton.txt",header=TRUE)
+galton=read.table("data/Galton.txt",header=TRUE)
 
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------
@@ -640,19 +603,6 @@ ggplot(galton,aes(Father,Height))+
    labs(x="Father's height (inches)",y="Child's height (inches)") +
    geom_text(aes(label=Family),size=2.95)  +
    theme_bw()
-   # theme_classic() +
-   # theme(axis.line = element_line(size=.7, colour = "black"),
-   #       legend.position = "none",
-   #       panel.grid.major = element_blank(),
-   #       panel.grid.minor = element_blank(),
-   #       panel.border = element_blank(),
-   #       panel.background = element_blank(),
-   #       plot.title=element_text(size = 20),
-   #       text=element_text(size = 12),
-   #       axis.text.x=element_text(colour="black", size = 12),
-   #       axis.text.y=element_text(colour="black", size = 12),
-   #       axis.ticks.length=unit(.2, "cm")
-   #       ) 
 
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------
@@ -788,23 +738,6 @@ tab=model$BUGSoutput$summary[-4,c(1,2,3,7)]
 tab=data.frame(c("$\\beta_0$ (intercept)","$\\beta_1$ (slope for father's height)","$\\beta_2$ (slope for mothers's height)","$\\sigma$ (population variance)"),tab)
 colnames(tab)=c("","Mean","SD","2.5\\%","97.5\\%")
 tinytable::tt(tab,digits=4)
-# if(knitr::is_latex_output()==TRUE) {
-#   kableExtra::kable_styling(
-#   knitr::kable(
-#     tab,
-#     booktabs=TRUE,
-#     digits=4,escape=F,format="latex",
-#     col.names=c("Mean","SD","2.5\\%","97.5\\%")
-#   )
-#   ,latex_options=c("HOLD_position"))
-# } else {
-#   knitr::kable(
-#     tab,
-#     booktabs=TRUE,
-#     digits=4
-#   )
-# }
-
 
 
 ## -----------------------------------------------------------------------------------------------------------------------------------------
@@ -987,26 +920,6 @@ tab=model2$BUGSoutput$summary[-4,c(1,2,3,7)]
 tab=data.frame(c("$\\beta_0$ (intercept)","$\\beta_1$ (logOR for father's height)","$\\beta_2$ (logOR for mothers's height)"),tab)
 colnames(tab)=c("","Mean","SD","2.5\\%","97.5\\%")
 tinytable::tt(tab,digits=4)
-# 
-# 
-# tab=model2$BUGSoutput$summary[-4,c(1,2,3,7)]
-# rownames(tab)=c("$\\beta_0$ (intercept)","$\\beta_1$ (logOR for father's height)","$\\beta_2$ (logOR for mothers's height)")
-# if(knitr::is_latex_output()==TRUE) {
-#   kableExtra::kable_styling(
-#   knitr::kable(
-#     tab,
-#     booktabs=TRUE,
-#     digits=4,escape=F,format="latex",
-#     col.names=c("Mean","SD","2.5\\%","97.5\\%")
-#   )
-#   ,latex_options=c("HOLD_position"))
-# } else {
-#   knitr::kable(
-#     tab,
-#     booktabs=TRUE,
-#     digits=4
-#   )
-# }
 
 
 ## ----echo=FALSE---------------------------------------------------------------------------------------------------------------------------
@@ -1057,10 +970,5 @@ tibble(OR1=OR1,OR2=OR2) %>% ggplot()+
 formula=y2~X-1
 # Now runs "glm" to estimate the model
 model=glm(formula,data=data.frame(y2,X),family='binomial')
-
-# Trick to have the 'call' all in one line
-# https://stackoverflow.com/questions/30692433/make-the-call-in-glm-output-respect-getoptionwidth
-#xx = paste(strwrap(capture.output(print(model$call))),collapse = " ")
-#model$call <- capture.output(cat(xx)) 
 summary(model)
 
