@@ -411,7 +411,7 @@ AIC(cur1_nm, cur2_nm)
 rm(list = ls())
 
 # load data
-workfolder <- "MV NMA/"
+workfolder <- "data/"
 datafolder <- paste(workfolder,"Data/", sep="")
 survparamdatafolder <- paste(workfolder,"Data/survparamdata/", sep="")
 outfolder      <- paste(workfolder,"Output/NMA_results/", sep="")
