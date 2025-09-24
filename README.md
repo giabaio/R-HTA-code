@@ -5,3 +5,5 @@ This repository includes annotated scripts extracted by the various chapters of 
 The scripts are organised by chapters -- each is labelled in line with the book's TOC.
 
 In each subfolder, there is an `R` file `code.R`, which contains the code used to run through the examples shown in that specific chapter. In addition, whenever suitable, there is also an additional folder `data`, which contains the datasets needed to run the examples.
+
+<img src="https://gianluca.statistica.it/books/r-hta/r-hta.png" alt="Alt text" width="400"/>
