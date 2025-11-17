@@ -176,9 +176,9 @@ aicres.lev <- data.frame(
 aicres.lev %>% arrange(AIC)
 
 aicres.obs <- data.frame(
-  model = names(fit.survHE.RFS.lev$models), 
-  AIC = fit.survHE.RFS.lev$model.fitting$aic,
-  BIC = fit.survHE.RFS.lev$model.fitting$bic
+  model = names(fit.survHE.RFS.obs$models), 
+  AIC = fit.survHE.RFS.obs$model.fitting$aic,
+  BIC = fit.survHE.RFS.obs$model.fitting$bic
 )
 aicres.obs %>% arrange(AIC)
 
